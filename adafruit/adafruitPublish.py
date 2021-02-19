@@ -1,25 +1,27 @@
+# IMPORT LIBRARY 
 import paho.mqtt.client as mqtt #import the client1
 import time
 import random 
 
+# SET BROKER (SERVER)
 broker_address="io.adafruit.com"
 clientId="Adelia Publish" #ganti sesuai nama kalian
 username= "adelia_y" #Ganti sesuai username kalian
 password= "aio_oCNL46vELAFdN0PD9hbjryNPusxH" #ganti sesuai token API kalian
 
-#broker_address="iot.eclipse.org" #use external broker
 client = mqtt.Client(clientId) #create new instance
 client.username_pw_set(username, password)
 client.connect(broker_address) #connect to broker
 
-t = random.randint(0,100)
-w = 11
-p = 1
-h = 70
-cc = 50
-pr = 80
-aq = "Moderate"
-st = "Cloudy Day"
+# VARABLE DECLARATIONS AND INITIALIZE DEFAULT VALUES
+t = 25 # temperature
+w = 11 # wind speed
+p = 1 # pressure
+h = 70 # humidity
+cc = 50 # cloud cover
+pr = 80 # precipitation
+aq = "Moderate" # air quality
+st = "Cloudy Day" # status 
 
 while True:
     #publish
@@ -32,17 +34,17 @@ while True:
     client.publish(username+"/feeds/"+"precipitation",pr)
     client.publish(username+"/feeds/"+"status",st)
     
-    t = t + random.randint(-10,10) #deg C
+    t = abs(t + random.randint(-5,5)) #deg C
     time.sleep(5)
-    w = random.randint(5, 20) #km/h
+    w = abs(w + random.randint(-3, 3)) #km/h
     time.sleep(5)
-    p = p + random.randint(-1,1) #bar
+    p = abs(p + random.randint(-3,3)) #bar
     time.sleep(5)
-    h = h + random.randint(-2,2) #%
+    h = abs(h + random.randint(-3,3)) #%
     time.sleep(5)
-    cc = cc + random.randint(-5,5) #%
+    cc = abs(cc + random.randint(-5,5)) #%
     time.sleep(5)
-    pr = pr + random.randint(-10,10) #mm
+    pr = abs(pr + random.randint(-10,10)) #mm
     time.sleep(5)
     st = random.choice(["Heavy Rain", "Light Rain", "Thunderstorm", "Cloudy Day", "Sunny Day"])
     time.sleep(5)
